@@ -1,5 +1,6 @@
 package com.workshop.service;
 
+import com.workshop.dto.WorkshopResponse;
 import com.workshop.model.Space;
 import com.workshop.repository.SpaceRepository;
 import com.workshop.repository.WorkshopRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Service
 public class WorkshopService {
@@ -25,9 +27,11 @@ public class WorkshopService {
         this.em = em;
     }
 
-    public Page<Workshop> getWorkshops(String category, String level, Integer spaceId, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize); // default sort by date DESC handled in query
-        return workshopRepository.findWorkshopsWithFilters(category, level, spaceId, pageable);
+    public WorkshopResponse getWorkshops(String category, String level, Integer spaceId, int pageNo, int pageSize) {
+
+        Integer totalCount = workshopRepository.CountWorkshopsWithFilters(category, level, spaceId);
+        return WorkshopResponse.builder().workshops(workshopRepository.findWorkshopsWithFilters(category, level, spaceId, (pageNo - 1)*pageSize, pageSize))
+                .totalCount(totalCount).build();
     }
 
     public Space createSpace(Space space) {

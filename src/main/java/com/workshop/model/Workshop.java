@@ -33,7 +33,7 @@ public class Workshop {
     private String instructor;
 
     @Column(name = "spaceId")
-    private int spaceId;
+    private Integer spaceId;
 
     @Column(name = "link", length = 255)
     private String link;

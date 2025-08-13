@@ -8,21 +8,41 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface WorkshopRepository extends JpaRepository<Workshop, Integer> {
 
     @Query(
-            value = "SELECT * FROM workshop w " +
-                    "WHERE (:category IS NULL OR w.category = :category) " +
-                    "AND (:level IS NULL OR w.level = :level) " +
-                    "AND (:spaceId IS NULL OR w.spaceId = :spaceId) " +
-                    "ORDER BY w.date DESC",
+            value =
+            "SELECT * " +
+            "FROM Workshop w " +
+            "WHERE ((:#{#category == null} = 1) OR w.category = :#{#category}) " +
+    "AND ((:#{#level == null} = 1) OR w.level = :#{#level}) " +
+    "AND ((:#{#spaceId == null} = 1) OR w.spaceId = :#{#spaceId}) " +
+    "ORDER BY w.date DESC OFFSET :offset ROWS FETCH NEXT :pageSize ROW ONLY",
             nativeQuery = true
     )
-    Page<Workshop> findWorkshopsWithFilters(
+    List<Workshop> findWorkshopsWithFilters(
             @Param("category") String category,
             @Param("level") String level,
             @Param("spaceId") Integer spaceId,
-            Pageable pageable
+            @Param("offset") int offset,
+            @Param("pageSize") int pageSize
+    );
+
+    @Query(
+            value =
+                    "SELECT count(*) " +
+                            "FROM Workshop w " +
+                            "WHERE ((:#{#category == null} = 1) OR w.category = :#{#category}) " +
+                            "AND ((:#{#level == null} = 1) OR w.level = :#{#level}) " +
+                            "AND ((:#{#spaceId == null} = 1) OR w.spaceId = :#{#spaceId}) ",
+            nativeQuery = true
+    )
+    Integer CountWorkshopsWithFilters(
+            @Param("category") String category,
+            @Param("level") String level,
+            @Param("spaceId") Integer spaceId
     );
 }

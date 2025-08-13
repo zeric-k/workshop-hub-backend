@@ -1,5 +1,6 @@
 package com.workshop.controller;
 
+import com.workshop.dto.Response;
 import com.workshop.dto.WorkshopRequest;
 import com.workshop.model.Space;
 import com.workshop.model.Workshop;
@@ -19,14 +20,15 @@ public class WorkshopController {
     }
 
     @GetMapping("/workshops")
-    public Page<Workshop> getWorkshops(
+    public ResponseEntity getWorkshops(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String level,
             @RequestParam(required = false) Integer spaceId,
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize
     ) {
-        return workshopService.getWorkshops(category, level, spaceId, pageNo, pageSize);
+        return ResponseEntity.ok(Response.builder().payload(workshopService.getWorkshops(category, level, spaceId, pageNo, pageSize))
+                .status("SUCCESS").build());
     }
 
     @PostMapping("/spaces")
