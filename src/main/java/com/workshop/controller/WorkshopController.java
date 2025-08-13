@@ -1,0 +1,52 @@
+package com.workshop.controller;
+
+import com.workshop.dto.WorkshopRequest;
+import com.workshop.model.Space;
+import com.workshop.model.Workshop;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.workshop.service.WorkshopService;
+
+@RestController
+@RequestMapping("/api/v1")
+public class WorkshopController {
+
+    private final WorkshopService workshopService;
+
+    public WorkshopController(WorkshopService workshopService) {
+        this.workshopService = workshopService;
+    }
+
+    @GetMapping("/workshops")
+    public Page<Workshop> getWorkshops(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String level,
+            @RequestParam(required = false) Integer spaceId,
+            @RequestParam(defaultValue = "0") int pageNo,
+            @RequestParam(defaultValue = "10") int pageSize
+    ) {
+        return workshopService.getWorkshops(category, level, spaceId, pageNo, pageSize);
+    }
+
+    @PostMapping("/spaces")
+    public ResponseEntity<Space> createSpace(@RequestBody Space space) {
+        Space savedSpace = workshopService.createSpace(space);
+        return ResponseEntity.ok(savedSpace);
+    }
+
+    // API to create a Workshop
+    @PostMapping("/workshops")
+    public ResponseEntity<Workshop> createWorkshop(@RequestBody WorkshopRequest request) {
+        Workshop workshop = new Workshop();
+        workshop.setTitle(request.getTitle());
+        workshop.setDate(request.getDate());
+        workshop.setLevel(request.getLevel());
+        workshop.setCategory(request.getCategory());
+        workshop.setInstructor(request.getInstructor());
+        workshop.setLink(request.getLink());
+
+        Workshop savedWorkshop = workshopService.createWorkshop(workshop, request.getSpaceId());
+        return ResponseEntity.ok(savedWorkshop);
+    }
+}
