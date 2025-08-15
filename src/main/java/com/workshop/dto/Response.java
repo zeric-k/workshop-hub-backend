@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Response {
+public class Response<T> {
     private String status;
-    private WorkshopResponse payload;
+    private T payload;
     private String error;
 }

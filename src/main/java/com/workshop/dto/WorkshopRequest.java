@@ -12,5 +12,5 @@ public class WorkshopRequest {
     private String category;
     private String instructor;
     private String link;
-    private Integer spaceId; // IMPORTANT for mapping to space
+    private Integer spaceId;
 }

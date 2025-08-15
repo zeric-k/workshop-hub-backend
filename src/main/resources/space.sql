@@ -1,0 +1,9 @@
+-- Space Table
+CREATE TABLE space (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    space VARCHAR(100) NOT NULL,
+    location VARCHAR(255),
+    createdAt DATETIME DEFAULT GETDATE(),
+    updatedAt DATETIME DEFAULT GETDATE(),
+    updatedBy VARCHAR(50) DEFAULT 'SYSTEM'
+);

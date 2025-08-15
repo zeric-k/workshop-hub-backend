@@ -24,10 +24,19 @@ public class WorkshopController {
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String level,
             @RequestParam(required = false) Integer spaceId,
-            @RequestParam(defaultValue = "0") int pageNo,
+            @RequestParam(defaultValue = "1") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize
     ) {
         return ResponseEntity.ok(Response.builder().payload(workshopService.getWorkshops(category, level, spaceId, pageNo, pageSize))
+                .status("SUCCESS").build());
+    }
+
+    @GetMapping("/spaces")
+    public ResponseEntity getWorkshops(
+            @RequestParam(defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "10") int pageSize
+    ) {
+        return ResponseEntity.ok(Response.builder().payload(workshopService.getSpaces(pageNo, pageSize))
                 .status("SUCCESS").build());
     }
 
@@ -39,7 +48,7 @@ public class WorkshopController {
 
     // API to create a Workshop
     @PostMapping("/workshops")
-    public ResponseEntity<Workshop> createWorkshop(@RequestBody WorkshopRequest request) {
+    public ResponseEntity createWorkshop(@RequestBody WorkshopRequest request) {
         Workshop workshop = new Workshop();
         workshop.setTitle(request.getTitle());
         workshop.setDate(request.getDate());
@@ -48,7 +57,9 @@ public class WorkshopController {
         workshop.setInstructor(request.getInstructor());
         workshop.setLink(request.getLink());
 
-        Workshop savedWorkshop = workshopService.createWorkshop(workshop, request.getSpaceId());
-        return ResponseEntity.ok(savedWorkshop);
+        if(workshopService.createWorkshop(workshop, request.getSpaceId()) >= 1) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.internalServerError().build();
     }
 }
