@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 public interface WorkshopRepository extends JpaRepository<Workshop, Integer> {
 
-    @Query(value = "SELECT * FROM Workshop w WHERE ((:#{#category == null} = 1) OR w.category = :#{#category}) AND ((:#{#level == null} = 1) OR w.level = :#{#level}) " +
+    @Query(value = "SELECT w.id, w.title, w.date, w.level, w.category, w.instructor, w.link, w.spaceId, s.space, s.location  FROM Workshop w inner join Space s on (w.spaceId=s.id) WHERE ((:#{#category == null} = 1) OR w.category = :#{#category}) AND ((:#{#level == null} = 1) OR w.level = :#{#level}) " +
     "AND ((:#{#spaceId == null} = 1) OR w.spaceId = :#{#spaceId}) ORDER BY w.date DESC OFFSET :offset ROWS FETCH NEXT :pageSize ROW ONLY", nativeQuery = true)
-    List<Workshop> findWorkshopsWithFilters(@Param("category") String category, @Param("level") String level, @Param("spaceId") Integer spaceId, @Param("offset") int offset, @Param("pageSize") int pageSize);
+    List<Object[]> findWorkshopsWithFilters(@Param("category") String category, @Param("level") String level, @Param("spaceId") Integer spaceId, @Param("offset") int offset, @Param("pageSize") int pageSize);
 
     @Query(value = "SELECT count(*) FROM Workshop w WHERE ((:#{#category == null} = 1) OR w.category = :#{#category}) AND ((:#{#level == null} = 1) OR w.level = :#{#level}) " +
                             "AND ((:#{#spaceId == null} = 1) OR w.spaceId = :#{#spaceId}) ", nativeQuery = true)

@@ -10,5 +10,5 @@ import java.util.List;
 @Builder
 public class WorkshopResponse {
     private Integer totalCount;
-    private List<Workshop> workshops;
+    private List<WorkshopWithSpaceDTO> workshops;
 }
