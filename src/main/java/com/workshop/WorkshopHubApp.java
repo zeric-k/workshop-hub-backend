@@ -12,17 +12,4 @@ public class WorkshopHubApp {
     public static void main(String[] args) {
         SpringApplication.run(WorkshopHubApp.class, args);
     }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")  // allow all endpoints
-                        .allowedOrigins("http://localhost:3000")  // your React dev server
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
-            }
-        };
-    }
 }
