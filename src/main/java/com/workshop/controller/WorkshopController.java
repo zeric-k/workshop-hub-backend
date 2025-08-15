@@ -4,10 +4,9 @@ import com.workshop.dto.Response;
 import com.workshop.dto.WorkshopRequest;
 import com.workshop.model.Space;
 import com.workshop.model.Workshop;
-import org.springframework.data.domain.Page;
+import com.workshop.service.WorkshopService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.workshop.service.WorkshopService;
 
 @RestController
 @RequestMapping("/api/v1")
