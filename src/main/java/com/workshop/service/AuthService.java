@@ -32,18 +32,28 @@ public class AuthService {
                     )
             );
 
-            // Fetch user role from DB
+            // Fetch user from DB
             User user = userRepository.findByUsername(request.getUsername())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
+            // Generate token with role
             String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
 
-            // ✅ Return token + role
-            return new LoginResponse(token, user.getRole());
+            // Build response
+            LoginResponse response = new LoginResponse(token, user.getRole());
+
+            // Add role-specific details
+            if ("SPACE_OWNER".equalsIgnoreCase(user.getRole()) && user.getSpaces() != null) {
+                response.setSpaceName(user.getSpaces().getSpace()); // space name
+            } else if ("REGULAR_USER".equalsIgnoreCase(user.getRole()) && user.getUserProfile() != null) {
+                response.setFirstName(user.getUserProfile().getFirstName());
+                response.setLastName(user.getUserProfile().getLastName());
+            }
+
+            return response;
 
         } catch (AuthenticationException e) {
             throw new RuntimeException("Invalid credentials");
         }
     }
-
 }
