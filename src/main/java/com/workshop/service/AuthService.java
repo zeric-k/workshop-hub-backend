@@ -38,10 +38,12 @@ public class AuthService {
 
             String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
 
-            return new LoginResponse(token);
+            // ✅ Return token + role
+            return new LoginResponse(token, user.getRole());
 
         } catch (AuthenticationException e) {
             throw new RuntimeException("Invalid credentials");
         }
     }
+
 }
