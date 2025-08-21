@@ -38,6 +38,10 @@ public class Workshop {
     @Column(name = "link", length = 255)
     private String link;
 
+    @Column(name = "price")
+    private Integer price;
+
+
     @Column(name = "createdAt", columnDefinition = "DATETIME DEFAULT GETDATE()")
     private LocalDateTime createdAt;
 

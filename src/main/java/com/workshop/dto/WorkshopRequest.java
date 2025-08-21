@@ -13,4 +13,5 @@ public class WorkshopRequest {
     private String instructor;
     private String link;
     private Integer spaceId;
+    private Integer price;
 }
