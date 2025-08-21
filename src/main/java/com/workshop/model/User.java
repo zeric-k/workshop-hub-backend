@@ -1,21 +1,29 @@
 package com.workshop.model;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
 @Table(name = "users") // maps to the users table
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // works for MySQL/Postgres auto-increment
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
-
     private String password;
-
     private String role;
+
+    // For REGULAR_USER
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserProfile userProfile;
+
+    // For SPACE_OWNER
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    private Space spaces;
 
     // ---- Constructors ----
     public User() {}
