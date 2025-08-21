@@ -55,6 +55,7 @@ public class WorkshopController {
         workshop.setCategory(request.getCategory());
         workshop.setInstructor(request.getInstructor());
         workshop.setLink(request.getLink());
+        workshop.setPrice(request.getPrice());
 
         if(workshopService.createWorkshop(workshop, request.getSpaceId()) >= 1) {
             return ResponseEntity.ok().build();

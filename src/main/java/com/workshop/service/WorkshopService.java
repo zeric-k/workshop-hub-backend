@@ -48,7 +48,8 @@ public class WorkshopService {
                     (String) row[6],
                     (Integer) row[7],
                     (String) row[8],
-                    (String) row[9]
+                    (String) row[9],
+                    (Integer) row[10]
             ));
         }
         return dtos;
