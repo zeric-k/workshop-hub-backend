@@ -22,6 +22,10 @@ public class Space {
     @Column(name = "location", length = 255)
     private String location;
 
+    @OneToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
+
     @Column(name = "createdAt", columnDefinition = "DATETIME DEFAULT GETDATE()")
     private LocalDateTime createdAt;
 
