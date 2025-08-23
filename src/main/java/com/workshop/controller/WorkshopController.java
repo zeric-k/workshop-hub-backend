@@ -24,9 +24,10 @@ public class WorkshopController {
             @RequestParam(required = false) String level,
             @RequestParam(required = false) Integer spaceId,
             @RequestParam(defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "10") int pageSize
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(required = false) Long userId
     ) {
-        return ResponseEntity.ok(Response.builder().payload(workshopService.getWorkshops(category, level, spaceId, pageNo, pageSize))
+        return ResponseEntity.ok(Response.builder().payload(workshopService.getWorkshops(category, level, spaceId, pageNo, pageSize, userId))
                 .status("SUCCESS").build());
     }
 

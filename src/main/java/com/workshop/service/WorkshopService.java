@@ -5,8 +5,10 @@ import com.workshop.dto.WorkshopResponse;
 import com.workshop.dto.WorkshopWithSpaceDTO;
 import com.workshop.model.Space;
 import com.workshop.model.Workshop;
+import com.workshop.repository.PaymentRepository;
 import com.workshop.repository.SpaceRepository;
 import com.workshop.repository.WorkshopRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,23 +24,26 @@ public class WorkshopService {
     private final SpaceRepository spaceRepository;
     private final EntityManager em;
 
+    @Autowired
+    PaymentRepository paymentRepository;
+
     public WorkshopService(WorkshopRepository workshopRepository, SpaceRepository spaceRepository, EntityManager em) {
         this.workshopRepository = workshopRepository;
         this.spaceRepository = spaceRepository;
         this.em = em;
     }
 
-    public WorkshopResponse getWorkshops(String category, String level, Integer spaceId, int pageNo, int pageSize) {
+    public WorkshopResponse getWorkshops(String category, String level, Integer spaceId, int pageNo, int pageSize, Long userId) {
 
         Integer totalCount = workshopRepository.countWorkshopsWithFilters(category, level, spaceId);
-        return WorkshopResponse.builder().workshops(mapResult(category, level, spaceId, pageNo, pageSize))
+        return WorkshopResponse.builder().workshops(mapResult(category, level, spaceId, pageNo, pageSize, userId))
                 .totalCount(totalCount).build();
     }
 
-    private List<WorkshopWithSpaceDTO> mapResult(String category, String level, Integer spaceId, int pageNo, int pageSize) {
+    private List<WorkshopWithSpaceDTO> mapResult(String category, String level, Integer spaceId, int pageNo, int pageSize, Long userId) {
         List<WorkshopWithSpaceDTO> dtos = new ArrayList<>();
         for (Object[] row : workshopRepository.findWorkshopsWithFilters(category, level, spaceId, (pageNo - 1)*pageSize, pageSize)) {
-            dtos.add(new WorkshopWithSpaceDTO(
+            WorkshopWithSpaceDTO dto = new WorkshopWithSpaceDTO(
                     (Integer) row[0],
                     (String) row[1],
                     (Date) row[2],
@@ -50,7 +55,13 @@ public class WorkshopService {
                     (String) row[8],
                     (String) row[9],
                     (Integer) row[10]
-            ));
+            );
+            if (userId != null) {
+                boolean booked = paymentRepository.existsByUserIdAndWorkshopIdAndStatus(userId, dto.getId().longValue(), "SUCCESS");
+                dto.setBooked(booked);
+            }
+
+            dtos.add(dto);
         }
         return dtos;
     }
