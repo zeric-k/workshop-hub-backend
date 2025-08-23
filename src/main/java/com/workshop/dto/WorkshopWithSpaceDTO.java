@@ -19,6 +19,7 @@ public class WorkshopWithSpaceDTO {
     private String space;
     private String location;
     private Integer price;
+    private boolean booked;
 
     public WorkshopWithSpaceDTO(Integer workshopId, String title, Date date, String level,
                                 String category, String instructor, String link,
@@ -34,8 +35,6 @@ public class WorkshopWithSpaceDTO {
         this.space = space;
         this.location = location;
         this.price = price;
+        this.booked = false;
     }
-
-    // Getters and setters
-    // ...
 }
