@@ -1,8 +1,12 @@
 package com.workshop.dto;
 
+import lombok.Data;
+
+@Data
 public class LoginResponse {
     private String token;
     private String role;
+    private Long id;
 
     // Extra fields depending on role
     private String spaceName;   // for SPACE_OWNER
