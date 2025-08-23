@@ -13,10 +13,16 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("*")
+                        .allowedOriginPatterns(
+                                "https://victorious-bush-0ba28f000.2.azurestaticapps.net",
+                                "http://localhost:3000",
+                                "http://localhost:3001",
+                                "http://localhost:3002",
+                                "http://localhost:3003",
+                                "http://localhost:3004")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(false);
+                        .allowCredentials(true);
             }
         };
     }
