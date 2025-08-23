@@ -12,7 +12,6 @@ It powers the REST APIs for users, spaces, workshops, bookings, and payments, an
 - 📅 **Workshops API** – filter by category, level, and space
 - 💳 **Payments API** – manage bookings & track payments
 - 📊 **Booking Workflow** – users can book/cancel workshops as well as spaces
-- 🌐 **CORS enabled** for frontend integration
 - 🗄️ **Azure SQL Database** with JPA/Hibernate
 
 ---
