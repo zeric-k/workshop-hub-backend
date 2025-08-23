@@ -48,6 +48,7 @@ public class AuthService {
             } else if ("REGULAR_USER".equalsIgnoreCase(user.getRole()) && user.getUserProfile() != null) {
                 response.setFirstName(user.getUserProfile().getFirstName());
                 response.setLastName(user.getUserProfile().getLastName());
+                response.setId(user.getId());
             }
 
             return response;
