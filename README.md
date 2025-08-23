@@ -5,6 +5,10 @@ It powers the REST APIs for users, spaces, workshops, bookings, and payments, an
 
 ---
 
+🌐 **Live App:** [Dance Workshop Platform](https://victorious-bush-0ba28f000.2.azurestaticapps.net/) 
+
+---
+
 ## ✨ Features
 
 - 🔐 **User Authentication & Authorization** (JWT based)
