@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/payments")
@@ -56,6 +53,13 @@ public class PaymentController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Payment>> getPaymentsByUser(@PathVariable Long userId) {
+        List<Payment> payments = paymentRepository.findByUserId(userId);
+        return ResponseEntity.ok(payments);
+    }
+
 
 }
 
